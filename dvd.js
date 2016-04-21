@@ -17,52 +17,55 @@ var main = function(){
     for(var i = 0; i<Balls.length; i++){
         Balls[i].act();
     }
-    
-    
 }
 
-var Ball = function(){
+var Ball = {
     
-    var xcor,ycor,radius,dx,dy,color;
+    xcor : 0,
+    ycor : 0,
+    radius : 0,
+    dx : 0,
+    dy : 0,
+    color : 0,
     
-    var display = function(){
+    display : function(){
         var ball = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        ball.setAttribute("cx", xcor);
-        ball.setAttribute("cy", ycor);
-        ball.setAttribute("r", radius);
+        ball.setAttribute("cx", this.xcor);
+        ball.setAttribute("cy", this.ycor);
+        ball.setAttribute("r", this.radius);
         ball.setAttribute("fill", "white");
         ball.setAttribute("stroke", "black");
         svg.appendChild(ball);
-    };
+    },
     
     
-    var ball = function(){
-        xcor = Math.random(svg.getAttribute("width"));
-        ycor = Math.random(svg.getAttribute("height"));
-        radius = Math.random(35);
-        dx = Math.random(3);
-        dy = Math.random(3);
-    };
+    ball : function(){
+        this.xcor = Math.random(svg.getAttribute("width"));
+        this.ycor = Math.random(svg.getAttribute("height"));
+        this.radius = Math.random(35);
+        this.dx = Math.random(3);
+        this.dy = Math.random(3);
+    },
     
-    var act = function(){
-        display();
-        isCollide();
-        move();
-    };
+    act : function(){
+        this.display();
+        this.isCollide();
+        this.move();
+    },
     
-    var move = function(){
-        xcor += dx;
-        ycor += dy;
-    };
+    move : function(){
+        this.xcor += this.dx;
+        this.ycor += this.dy;
+    },
     
-    var isCollide = function(){
-        if(xcor<=0 || xcor >= svg.getAttribute("width") - radius){
-            dx = dx * -1;
+    isCollide : function(){
+        if(this.xcor<=0 || this.xcor >= svg.getAttribute("width") - this.radius){
+            this.dx = this.dx * -1;
         }
-        if(ycor<=0 || ycor >= svg.getAttribute("height") - radius){
-            dy = dy * -1;
+        if(this.ycor<=0 || this.ycor >= svg.getAttribute("height") - this.radius){
+            this.dy = this.dy * -1;
         }
-    };
+    },
 }
 
 main();
