@@ -9,17 +9,63 @@ var add = document.getElementById("add");
 var frameID;
 var Balls=[];
 
-var main = function(){
-    for(var i = 0; i<3; i++){
-        Balls[i]=Ball.ball();
+var Ball = function(){
+    this.xcor = 250;
+    this.ycor = 250;
+    this.radius = 10;
+    this.dx = 1;
+    this.dy = 1;
+    this.ball;
+    
+    function move(){
+        this.xcor += this.dx;
+        this.ycor += this.dy;
+        if(this.xcor + this.radius >= 500 || this.xcor <= this.radius){
+            this.dx*=-1;
+        }
+        if(this.ycor + this.radius >= 500 || this.ycor <= this.radius){
+            this.dy*=-1;
+        }
+        this.ball.setAttribute("cx", this.xcor);
+        this.ball.setAttribute("cy", this.ycor);
+    }
+    function element(){
+        this.ball = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        this.ball.setAttribute("cx", this.xcor);
+        this.ball.setAttribute("cy", this.ycor);
+        this.ball.setAttribute("r", this.radius);
+        this.ball.setAttribute("fill", "white");
+        this.ball.setAttribute("stroke", "black");
+        return this.ball;
     }
     
-    for(var i = 0; i<Balls.length; i++){
-        Balls[i].act();
-    }
+    return element();
+    /*return {
+        xcor : this.xcor,
+        ycor : this.ycor,
+        radius : this.radius,
+        dx : this.dx,
+        dy : this.dy,
+        move : move
+    };*/
+    
+};
+
+for(var i = 0;i<=10;i++){
+    Balls[i] = Ball();
+    svg.appendChild(Balls[i]);
 }
 
-var Ball = {
+var ballMove = function(){
+    for(var i = 0;i<=svg.children.length;i++){
+        svg.children[i].move();
+    }
+    frameID = window.setInterval(ballMove,10);
+};
+ballMove();
+
+
+/*var Ball = {
     
     xcor : 0,
     ycor : 0,
@@ -68,4 +114,4 @@ var Ball = {
     },
 }
 
-main();
+main();*/
