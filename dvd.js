@@ -11,8 +11,8 @@ var Ball = function() {
     
     color = ["LightSeaGreen", "PaleGoldenRod", "RosyBrown", "Silver", "Violet"]    
     radius = Math.random() * 35 + 15;
-    xcor = Math.floor(Math.random() * (svg.getAttribute("width") - radius + 1) + radius);
-    ycor = Math.floor(Math.random() * (svg.getAttribute("height") - radius + 1) + radius);
+    xcor = Math.floor(Math.random() * (svg.getAttribute("width") - 2 * radius + 1) + radius);
+    ycor = Math.floor(Math.random() * (svg.getAttribute("height") - 2 * radius + 1) + radius);
     dx = Math.random() * 3 + 1;
     dy = Math.random() * 3 + 1;
     
@@ -34,10 +34,10 @@ var Ball = function() {
     };
     
     var isCollide = function(){
-        if(xcor<=0 || xcor >= svg.getAttribute("width") - radius){
+        if( xcor - radius <= 0 || xcor + radius >= svg.getAttribute("width") ){
             dx = dx * -1;
         }
-        if(ycor<=0 || ycor >= svg.getAttribute("height") - radius){
+        if( ycor - radius <= 0 || ycor + radius >= svg.getAttribute("height") ){
             dy = dy * -1;
         }
         
@@ -45,7 +45,6 @@ var Ball = function() {
     
     var act = function(){
         //display();
-        isCollide();
         move();
     };
     
