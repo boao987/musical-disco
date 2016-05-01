@@ -2,6 +2,10 @@ var svg = document.getElementById("mysvg");
 
 var add = document.getElementById("add");
 var remove = document.getElementById("remove");
+var zify = document.getElementById("Z-ify");
+var filter = document.getElementById("filter");
+var flock = document.getElementById("flock");
+var go = document.getElementById("go");
 
 var Balls=[];
 
@@ -16,14 +20,19 @@ var Ball = function() {
     dx = Math.random() * 3 + 1;
     dy = Math.random() * 3 + 1;
     
-        var ball = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        ball.setAttribute("cx", xcor);
-        ball.setAttribute("cy", ycor);
-        ball.setAttribute("r", radius);
-        ball.setAttribute("fill", color[Math.floor(Math.random()*5)]);
-        ball.setAttribute("stroke", "black");
-        svg.appendChild(ball);
+    var ball = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    ball.setAttribute("cx", xcor);
+    ball.setAttribute("cy", ycor);
+    ball.setAttribute("r", radius);
+    ball.setAttribute("fill", color[Math.floor(Math.random()*5)]);
+    ball.setAttribute("stroke", "black");
+    svg.appendChild(ball);
 
+    
+    var setVals = function(a, b){
+        dx=a;
+        dy=b;
+    };
     
     var move = function(){
         xcor += dx;
@@ -53,12 +62,13 @@ var Ball = function() {
         ycor : ycor,
         radius : radius,
         color : color,
-        move : move
+        move : move,
+        setVals : setVals
     };
 };
 
 var addBall = function(){
-    var b = Ball()
+    var b = Ball();
     Balls.push(b);
     setInterval(b.move,16);
 };
@@ -71,5 +81,27 @@ var removeBall = function(){
   }
 };
 
+var Zinvasion= function(){
+    Balls.map(function(x) {x.color = "blue";}
+    );
+};
+
+var moveTogether = function(){
+    Balls.map(function(x) {x.setVals(1,1); } );
+};
+
+var stopBig = function(){
+    Balls.filter(function(x) {return x.radius > 30}).map(function(x) {x.setVals(0,0); });
+};
+
+var resetSpeed = function () {  
+    Balls.map(function(x) {x.setVals( (Math.random() * 3 + 1), (Math.random() * 3 + 1) ); });
+    // body...
+};
+
 add.addEventListener("click", addBall);
 remove.addEventListener("click", removeBall);
+zify.addEventListener("click", Zinvasion);
+flock.addEventListener("click", moveTogether);
+filter.addEventListener("click", stopBig);
+go.addEventListener("click", resetSpeed);
